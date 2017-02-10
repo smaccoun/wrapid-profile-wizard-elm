@@ -1,0 +1,207 @@
+var _user$project$Main$viewAvatar = function (url) {
+	var _p0 = url;
+	if (_p0.ctor === 'Nothing') {
+		return _elm_lang$html$Html$text('');
+	} else {
+		return A2(
+			_elm_lang$html$Html$img,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$src(_p0._0),
+				_1: {ctor: '[]'}
+			},
+			{ctor: '[]'});
+	}
+};
+var _user$project$Main$viewLocation = function (location) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				A2(_elm_lang$core$Basics_ops['++'], location.pathname, location.hash)),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Main$viewLink = function (name) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						A2(_elm_lang$core$Basics_ops['++'], '#', name)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(name),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Main$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _user$project$WrapidLogo$logo,
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h1,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Pages'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$ul,
+						{ctor: '[]'},
+						A2(
+							_elm_lang$core$List$map,
+							_user$project$Main$viewLink,
+							{
+								ctor: '::',
+								_0: 'bears',
+								_1: {
+									ctor: '::',
+									_0: 'cats',
+									_1: {
+										ctor: '::',
+										_0: 'dogs',
+										_1: {
+											ctor: '::',
+											_0: 'elephants',
+											_1: {
+												ctor: '::',
+												_0: 'fish',
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							})),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h1,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('History'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$ul,
+								{ctor: '[]'},
+								A2(_elm_lang$core$List$map, _user$project$Main$viewLocation, model.history)),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$h1,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Data'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Main$viewAvatar(model.currentImg),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		if (_p1.ctor === 'UrlChange') {
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						history: {ctor: '::', _0: _p1._0, _1: model.history}
+					}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		} else {
+			var clickedUser = A2(
+				_elm_community$list_extra$List_Extra$find,
+				function (usr) {
+					return _elm_lang$core$Native_Utils.eq(usr.id, _p1._0);
+				},
+				model.profiles);
+			var url = A2(
+				_elm_lang$core$Maybe$andThen,
+				function (_) {
+					return _.url;
+				},
+				clickedUser);
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{currentImg: url}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		}
+	});
+var _user$project$Main$Model = F3(
+	function (a, b, c) {
+		return {history: a, profiles: b, currentImg: c};
+	});
+var _user$project$Main$init = function (location) {
+	return {
+		ctor: '_Tuple2',
+		_0: A3(
+			_user$project$Main$Model,
+			{
+				ctor: '::',
+				_0: location,
+				_1: {ctor: '[]'}
+			},
+			{ctor: '[]'},
+			_elm_lang$core$Maybe$Nothing),
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
+};
+var _user$project$Main$Profile = F3(
+	function (a, b, c) {
+		return {id: a, firstName: b, url: c};
+	});
+var _user$project$Main$ShowAvatar = function (a) {
+	return {ctor: 'ShowAvatar', _0: a};
+};
+var _user$project$Main$UrlChange = function (a) {
+	return {ctor: 'UrlChange', _0: a};
+};
+var _user$project$Main$main = A2(
+	_elm_lang$navigation$Navigation$program,
+	_user$project$Main$UrlChange,
+	{
+		init: _user$project$Main$init,
+		view: _user$project$Main$view,
+		update: _user$project$Main$update,
+		subscriptions: function (_p2) {
+			return _elm_lang$core$Platform_Sub$none;
+		}
+	})();
